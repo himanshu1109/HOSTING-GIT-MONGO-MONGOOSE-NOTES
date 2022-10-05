@@ -1,0 +1,116 @@
+Mongo CRUD: - https://www.mongodb.com/docs/manual/crud/
+
+1. C - Create 
+--> use db_name
+--> inserting -- db.collections.insertOne({key:value}) or db.collections.insertMany()
+--> show collections
+--> show dbs
+--> db
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> use shopdb
+switched to db shopdb
+> db
+shopdb
+> db.products.insertOne({_id: 1, name: "Pen", price: 1.20})
+{ "acknowledged" : true, "insertedId" : 1 }
+> db.products.insertOne({_id: 2, name: "Pencil", price: 0.80})
+{ "acknowledged" : true, "insertedId" : 2 }
+> db
+shopdb
+> show collections
+products
+
+2. R - Read
+--> find --> db.collections.find(Query, Projection)
+--> Query -- Condition to check
+--> Projection -- Field to Return
+> db.products.find()
+{ "_id" : 1, "name" : "Pen", "price" : 1.2 }
+{ "_id" : 2, "name" : "Pencil", "price" : 0.8 }
+> db.products.find({name: "Pencil"})
+{ "_id" : 2, "name" : "Pencil", "price" : 0.8 }
+> db.products.find({price: {$gt:1}})
+{ "_id" : 1, "name" : "Pen", "price" : 1.2 }
+> db.products.find({_id:1}, {name:1})
+{ "_id" : 1, "name" : "Pen" }
+> db.products.find({_id:1}, {name:1, _id:0})
+{ "name" : "Pen" }
+
+3. U - Update
+--> db.collection.updateOne()
+--> db.collection.updateMany()
+--> db.collection.replaceOne()
+> db.products.updateOne({_id:1}, {$set: {stock: 32}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.products.find()                        
+{ "_id" : 1, "name" : "Pen", "price" : 1.2, "stock" : 32 }
+{ "_id" : 2, "name" : "Pencil", "price" : 0.8 }
+> db.products.updateOne({_id:2}, {$set: {stock: 12}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.products.find()
+{ "_id" : 1, "name" : "Pen", "price" : 1.2, "stock" : 32 }
+{ "_id" : 2, "name" : "Pencil", "price" : 0.8, "stock" : 12 }
+
+4. D - Delete
+--> db.collection.deleteOne()
+--> db.collection.deleteMany()
+> db.products.deleteOne({_id:2})
+{ "acknowledged" : true, "deletedCount" : 1 }
+> db.products.find()
+{ "_id" : 1, "name" : "Pen", "price" : 1.2, "stock" : 32 }
+--> To delete database -- db.dropDatabase()
+
+
+Relationships: -
+> db.products.insert(
+...     {
+...     _id: 3,
+...     name: "Rubber",
+...     price: 1.30,
+...     stock: 43,
+...     reviews: [
+...         {
+...             authorName: "Salty",
+...             rating: 5,
+...             review: "Best Rubber ever!"
+...         },
+...         {
+...             authorName: "John",
+...             rating: 5,
+...             review: "Awesome Rubber!"
+...         }
+...     ]
+... }
+... )
+WriteResult({ "nInserted" : 1 })
+> db.products.find()
+{ "_id" : 1, "name" : "Pen", "price" : 1.2, "stock" : 32 }
+{ "_id" : 3, "name" : "Rubber", "price" : 1.3, "stock" : 43, "reviews" : [ { "authorName" : "Salty", "rating" : 5, "review" : "Best Rubber ever!" }, { "authorName" : "John", "rating" : 5, "review" : "Awesome Rubber!" } ] }      
+> db.products.insertOne(
+...     {
+...     _id: 2,
+...     name: "Pencil",
+...     price: 0.80,
+...     stock: 12,
+...     reviews: [
+...         {
+...             authorName: "Himanshu",
+...             rating: 2,
+...             review: "gandi shakal ki pencil"
+...         },
+...         {
+...             authorName: "muskan",
+...             rating: 5,
+...             review: "Mujhe toh acchi lagi"
+...         }
+...     ]
+... }
+... )
+{ "acknowledged" : true, "insertedId" : 2 }
+> db.products.find()
+{ "_id" : 1, "name" : "Pen", "price" : 1.2, "stock" : 32 }
+{ "_id" : 3, "name" : "Rubber", "price" : 1.3, "stock" : 43, "reviews" : [ { "authorName" : "Salty", "rating" : 5, "review" : "Best Rubber ever!" }, { "authorName" : "John", "rating" : 5, "review" : "Awesome Rubber!" } ] }
+{ "_id" : 2, "name" : "Pencil", "price" : 0.8, "stock" : 12, "reviews" : [ { "authorName" : "Himanshu", "rating" : 2, "review" : "gandi shakal ki pencil" }, { "authorName" : "muskan", "rating" : 5, "review" : "Mujhe toh acchi lagi" } ] }

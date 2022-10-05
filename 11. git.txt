@@ -1,0 +1,159 @@
+// Initalizing Git
+$ git init
+Initialized empty Git repository in D:/Complete Courses/Web Development By Angela Yu/Challenges/11. Story/.git/
+
+// To see Hidden files
+$ ls -a
+./  ../  .git/  chapter1.txt
+
+// To see git status     
+$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        chapter1.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+// Adding to git , to add all git add . -- working directory to staging area
+$ git add chapter1.txt
+       
+$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   chapter1.txt
+
+
+// git commit -- staging area to local repository    
+$ git commit -m "Initial Commit"
+[master (root-commit) d106a30] Initial Commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 chapter1.txt
+
+// git log to see all commits and changes
+$ git log
+commit d106a30deb584a787c36d5a179eacaf107805699 (HEAD -> master)
+Author: Himanshu Goyal <2019001426.himanshu@ug.sharda.ac.in>
+Date:   Fri Feb 4 14:35:40 2022 +0530
+
+    Initial Commit
+       
+// git diff to see changes in previous commit and new commit       
+$ git diff chapter3.txt
+diff --git a/chapter3.txt b/chapter3.txt
+index ee77667..ba97a6a 100644
+--- a/chapter3.txt
++++ b/chapter3.txt
+@@ -1 +1 @@
+-I am Chapter 3
+\ No newline at end of file
++I am Chapter 3 1234
+\ No newline at end of file
+
+// git checkout to see which file is updated     
+$ git checkout chapter3.txt
+Updated 1 path from the index
+
+// git push -- local repository to remote repository i.e. github
+$ git remote add origin https://github.com/himanshu1109/Story.git       
+$ git branch -M main
+$ git push -u origin main
+info: please complete authentication in your browser...
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (7/7), 536 bytes | 268.00 KiB/s, done.
+Total 7 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), done.
+To https://github.com/himanshu1109/Story.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+
+// .gitignore file to ignore those files which we want to saw to others
+$ mkdir '12. GitIgnore'
+$ cd '12. GitIgnore'/
+$ touch file1.txt file2.txt file3.txt file4.txt secrets.txt
+$ ls
+file1.txt  file2.txt  file3.txt  file4.txt  secrets.txt
+$ ls -a
+./  ../  file1.txt  file2.txt  file3.txt  file4.txt  secrets.txt
+$ touch .gitignore
+$ ls -a
+./  ../  .gitignore  file1.txt  file2.txt  file3.txt  file4.txt  secrets.txt
+$ git init
+Initialized empty Git repository in D:/Complete Courses/Web Development By Angela Yu/Challenges/12. GitIgnore/.git/  
+$ git add .
+$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   .gitignore
+        new file:   file1.txt
+        new file:   file2.txt
+        new file:   file3.txt
+        new file:   file4.txt
+        new file:   secrets.txt
+
+// to remove files   
+$ git rm --cached -r
+fatal: No pathspec was given. Which files should I remove?
+   
+$ git rm --cached -r .
+rm '.gitignore'
+rm 'file1.txt'
+rm 'file2.txt'
+rm 'file3.txt'
+rm 'file4.txt'
+rm 'secrets.txt'
+
+// copy link of github repository then clone it using git clone -- remote repository to working directory
+$git clone link
+
+// Making new Branch
+$ git branch alien-plot
+
+// checking all branches
+$ git branch
+  alien-plot
+* main
+
+// shifting between branches -- making change in one branch will not make any change in other branch
+$ git checkout alien-plot
+Switched to branch 'alien-plot'
+$ git add .
+$ git commit -m "Swirched branch commit"
+[alien-plot 76d954a] Swirched branch commit
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+// Merging branches
+$ git merge alien-plot
+Merge made by the 'ort' strategy.
+ chapter1.txt | 2 +-
+ chapter2.txt | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+$ git push origin main -u
+Enumerating objects: 12, done.
+Counting objects: 100% (12/12), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (9/9), 816 bytes | 408.00 KiB/s, done.
+Total 9 (delta 3), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (3/3), completed with 1 local object.
+To https://github.com/himanshu1109/Story.git
+   97910b0..32c5d0c  main -> main
+branch 'main' set up to track 'origin/main'.
+
+// forking -- making copy of some other repository in our own repository
+// Making pull requests if author finds it good , they can approve it 
